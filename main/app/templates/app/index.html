@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <style>
+        .checkbox-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            background-color: lightblue;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Сделайте заказ</h1>
+    <form method="post" action="/">
+        {% csrf_token %}
+        <div class="checkbox-container">
+            {% for item in items %}
+            <div class="checkbox-item">
+                <input type="checkbox" name="{{ item.place }}" id="{{ item.place }}">
+                <label for="{{ item.place }}">{{ item.name }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit" style="background-color: lightblue;">Отправить</button>
+    </form>
+</body>
+</html>
+
