@@ -33,25 +33,40 @@ def QR(image):
 
 while True:
     data_list = get_data_list()
-    print(1, data_list)
     time.sleep(0.01)
     a = 0
-
-    while a != 'END' and data_list is not None and data_list != []:
-        if arduino.in_waiting > 0:
-            a = arduino.readline().decode()
-            print(a)
-        if a == 'QR':
-            cap = cv2.VideoCapture(0)
-            _, img = cap.read()
-            data = QR(img)
-
-            while data == 0:
+    if data_list is not None and data_list != []:
+        arduino.write("START".encode())
+        c = 0
+        while arduino.readline().decode() != 'END':
+            if arduino.in_waiting > 0:
+                a = arduino.readline().decode()
+                print(a)
+            if a == 'QR':
+                cap = cv2.VideoCapture(0)
                 _, img = cap.read()
-                data = QR(img)		
-            for elem in data:
-                if elem in data_list:
-                    index = elem[-1]
-                    arduino.write(index.encode())
-        else:
-            break
+                data = QR(img) # Выход будет: ["А1"]
+                c += 1
+
+                while data == 0:
+                    _, img = cap.read()
+                    data = QR(img)
+                for elem in data:
+                    if elem in data_list:
+                        arduino.write("TAKE".encode())
+                        data_list.remove(elem)
+                while arduino.readline().decode() != "QR" and c < 4:
+                    cap = cv2.VideoCapture(0)
+                    _, img = cap.read()
+                    data = QR(img)  # Выход будет: ["А1"]
+                    c += 1
+
+                    while data == 0:
+                        _, img = cap.read()
+                        data = QR(img)
+                    for elem in data:
+                        if elem in data_list:
+                            arduino.write("TAKE".encode())
+                            data_list.remove(elem)
+            else:
+                break
