@@ -5,7 +5,6 @@
   take_low()
 */
 
-
 #include <AccelStepper.h>
 int w = 20;
 int counter = 0;
@@ -91,8 +90,8 @@ void move_forward(int arg) {
 
   int full_way = way_to_degrees(arg);
 
-  analogWrite(ENA, way_to_degrees);
-  analogWrite(ENB, way_to_degrees);
+  analogWrite(ENA, full_way);
+  analogWrite(ENB, full_way);
   
 }
 
@@ -155,7 +154,6 @@ void QR_low_moving_to_pos() {
 }
 
 void QR_answer() {
-  /*Написать движение манипулятора*/
   Serial.println("QR");
   delay(50);
   ans = Serial.readString();
@@ -192,9 +190,8 @@ void QR_high_moving_to_pos() {
   stepper3.runToPosition();
 
   
-  /*Написать движение манипулятора*/
+/*Написать движение манипулятора*/
 void QR_high_moving_back() {
-  // Пауза 1 секунда
   delay(1000);
 
   // движение обратно
@@ -208,7 +205,7 @@ void QR_high_moving_back() {
   stepper3.runToPosition();
 }
 
-/*
+/* Написать движение робота + коленей для каждого из номера заказов
 load_out(int order) {
   if (order == 1){
 
@@ -221,11 +218,9 @@ load_out(int order) {
   } 
 }
 */
-/*
-load_in(int counter){
-  if (counter == 0){
 
-  }
+/* Написать движение коленей для каждого из каунтеров
+load_in(int counter){
   if (counter == 1){
 
   }
@@ -235,9 +230,11 @@ load_in(int counter){
   if (counter == 3){
 
   }
+  if (counter == 4){
+
+  }
 }*/
 
-/* Закоментить qr, если будет выполняться движение манипулятора с использованием переменной */
 void loop() {
   delay(100);
   if (Serial.available() > 0) {
@@ -246,18 +243,18 @@ void loop() {
       order = order + 1;
       move_forward(y);
       QR_low_moving_back();
-      delay(500);
+      delay(100);
       ans = QR_answer();
-      delay(500);
+      delay(100);
       QR_low_moving_to_pos();
       if (ans == "TAKE"){
         take_low();
         counter = counter + 1;
         load_in(counter)
       QR_high_moving_back();
-      delay(500);
+      delay(100);
       ans = QR_answer();
-      delay(500);
+      delay(100);
       QR_high_moving_to_pos();
       if (ans == "TAKE"){
         take_high();
@@ -271,9 +268,9 @@ void loop() {
       move_forward(w/2+n);
       turn_right();
       QR_low_moving_back();
-      delay(500);
+      delay(100);
       ans = QR_answer();
-      delay(500);
+      delay(100);
       QR_low_moving_to_pos();
       if (ans == "TAKE"){
         take_low();
@@ -281,9 +278,9 @@ void loop() {
         load_in(counter)
       }
       QR_low_moving_back();
-      delay(500);
+      delay(100);
       ans = QR_answer();
-      delay(500);
+      delay(100);
       QR_low_moving_to_pos();
       if (ans == "TAKE"){
         take_high();
