@@ -56,17 +56,20 @@ while True:
                         arduino.write("TAKE".encode())
                         data_list.remove(elem)
                 while arduino.readline().decode() != "QR" and c < 4:
-                    cap = cv2.VideoCapture(0)
-                    _, img = cap.read()
-                    data = QR(img)  # Выход будет: ["А1"]
-                    c += 1
-
-                    while data == 0:
+                    if arduino.readline().decode() != "QR":
+                        cap = cv2.VideoCapture(0)
                         _, img = cap.read()
-                        data = QR(img)
-                    for elem in data:
-                        if elem in data_list:
-                            arduino.write("TAKE".encode())
-                            data_list.remove(elem)
+                        data = QR(img)  # Выход будет: ["А1"]
+                        c += 1
+
+                        while data == 0:
+                            _, img = cap.read()
+                            data = QR(img)
+                        for elem in data:
+                            if elem in data_list:
+                                arduino.write("TAKE".encode())
+                                data_list.remove(elem)
+                    else:
+                        print(arduino.readline().decode())
             else:
                 break
