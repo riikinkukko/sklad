@@ -241,20 +241,20 @@ void loop() {
     if (incomingByte == "START") {
       order = order + 1;
       move_forward(y);
-      QR_low_moving_back();
+      QR_low_moving_to_pos();
       delay(100);
       ans = QR_answer();
       delay(100);
-      QR_low_moving_to_pos();
+      QR_low_moving_back();
       if (ans == "TAKE"){
         take_low();
         counter = counter + 1;
         load_in(counter)
-      QR_high_moving_back();
+      QR_high_moving_to_pos();
       delay(100);
       ans = QR_answer();
       delay(100);
-      QR_high_moving_to_pos();
+      QR_high_moving_back();
       if (ans == "TAKE"){
         take_high();
         counter = counter + 1;
@@ -266,21 +266,21 @@ void loop() {
       turn_left();
       move_forward(w/2+n);
       turn_right();
-      QR_low_moving_back();
+      QR_low_moving_to_pos();
       delay(100);
       ans = QR_answer();
       delay(100);
-      QR_low_moving_to_pos();
+      QR_low_moving_back();
       if (ans == "TAKE"){
         take_low();
         counter = counter + 1;
         load_in(counter)
       }
-      QR_low_moving_back();
+      QR_high_moving_to_pos();
       delay(100);
       ans = QR_answer();
       delay(100);
-      QR_low_moving_to_pos();
+      QR_high_moving_back();
       if (ans == "TAKE"){
         take_high();
         counter = counter + 1;
