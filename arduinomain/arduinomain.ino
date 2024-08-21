@@ -6,9 +6,8 @@
 */
 
 #include <AccelStepper.h>
-int w = 20;
 int counter = 0;
-int s, x, y, w, h, n;
+int s, x, y, w, h, n; //расстояние в мм
 /*
   Написать значение переменных:
 s = 12;
