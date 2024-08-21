@@ -187,7 +187,7 @@ void QR_high_moving_to_pos() {
 
   stepper3.moveTo(); //в аргументы функции дописать положение
   stepper3.runToPosition();
-
+}
   
 /*Написать движение манипулятора*/
 void QR_high_moving_back() {
@@ -205,7 +205,7 @@ void QR_high_moving_back() {
 }
 
 /* Написать движение робота + коленей для каждого из номера заказов
-load_out(int order) {
+load_out(int order, int counter) {
   if (order == 1){
 
   }
@@ -218,7 +218,7 @@ load_out(int order) {
 }
 */
 
-/* Написать движение коленей для каждого из каунтеров
+/* Написать движение коленей для каждого из каунтеров Каунтеры - кол-во коробок
 load_in(int counter){
   if (counter == 1){
 
@@ -233,6 +233,17 @@ load_in(int counter){
 
   }
 }*/
+/* Написать движение манипулятора
+void take_high() {
+  //Для захвата коробки на верхней полке
+}
+*/
+
+/*
+void take_low() {
+  //Для захвата коробки на нижней полке
+}
+*/
 
 void loop() {
   delay(100);
@@ -290,7 +301,7 @@ void loop() {
       move_forward(w/2+x);
       turn_right();
       move_forward();
-      load_out(order);
+      load_out(order, counter);
       reverse();
       move_forward(s+h);
       turn_left();
