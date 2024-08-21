@@ -292,6 +292,12 @@ void loop() {
       move_forward();
       load_out(order);
       reverse();
+      move_forward(s+h);
+      turn_left();
+      move_forward(w/2+x);
+      turn_right();
+      move_forward(y);
+      reverse();
       Serial.println("END");
   }
 }
