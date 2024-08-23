@@ -389,7 +389,8 @@ void loop() {
       if (ans == "TAKE"){
         take_high();
         counter = counter + 1;
-        load_in(counter)
+        load_in(counter);
+      }
       turn_right();
       move_forward(w/2+n);
       turn_left();
