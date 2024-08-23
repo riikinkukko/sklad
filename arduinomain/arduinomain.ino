@@ -380,7 +380,8 @@ void loop() {
       if (ans == "TAKE"){
         take_low();
         counter = counter + 1;
-        load_in(counter)
+        load_in(counter);
+      }
       QR_high_moving_to_pos();
       delay(100);
       ans = QR_answer();
@@ -406,7 +407,7 @@ void loop() {
       if (ans == "TAKE"){
         take_low();
         counter = counter + 1;
-        load_in(counter)
+        load_in(counter);
       }
       QR_high_moving_to_pos();
       delay(100);
@@ -416,7 +417,7 @@ void loop() {
       if (ans == "TAKE"){
         take_high();
         counter = counter + 1;
-        load_in(counter)
+        load_in(counter);
       }
       turn_left();
       move_forward(w/2+x);
