@@ -4,7 +4,6 @@ Servo servoRIGHT;
 Servo servoLEFT;
 Servo servoKOLENO;
 
-int counter = 0;
 //расстояние в мм
 //Написать значение переменных:
 int s = 12;
@@ -175,7 +174,7 @@ void load_out(int order, int counter) {
     turn_left();
   }
 
-  while (counter != 0) {
+  while (counter > 0) {
     //Для кажого из ветвления надо будет написать свое положение манипулятора
     if (counter == 1) {
       stepper2.moveTo(); 
