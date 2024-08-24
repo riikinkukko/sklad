@@ -5,16 +5,15 @@ Servo servoLEFT;
 Servo servoKOLENO;
 
 int counter = 0;
-int s, x, y, w, h, n; //расстояние в мм
-/*
-  Написать значение переменных:
-s = 12;
-x = 12;
-y = 12;
-w = 12;
-h = 12;
-n = 12;
-*/
+//расстояние в мм
+//Написать значение переменных:
+int s = 12;
+int x = 12;
+int y = 12;
+int w = 12;
+int h = 12;
+int n = 12;
+
 String incomingByte;
 int counter = 0;
 int order = 0;
@@ -218,7 +217,7 @@ void load_out(int order, int counter) {
       servoKOLENO.write(180);//отпустил, вписать угл
       delay(1000);
     }
-    counter = coounter - 1;
+    counter = counter - 1;
   }
   reverse();
   if (order == 1) {
