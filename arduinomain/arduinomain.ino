@@ -102,7 +102,7 @@ void QR_answer() {
   Serial.println("QR");
   delay(50);
   ans = Serial.readString();
-  return ans;
+  return (ans);
 }
 
 void QR_low_moving_back() {
