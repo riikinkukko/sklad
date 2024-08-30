@@ -53,33 +53,39 @@ void setup() {
 }
 
 int way_to_degrees(int way) {
-  /*Перевод из миллиметров в градусы*/
+  Перевод из миллиметров в градусы
 
-  double diff = way/127.;
-  int degree = diff*360/5;
+  double diff = way/12;
   return (degree);
 }
 
+
 void move_forward(int arg) {
   /*Движение прямо*/
-  int full_way = way_to_degrees(arg);
-  servoRIGHT.write(full_way);//ВПИСАТЬ УГЛЫ
-  servoLEFT.write(full_way);
+  servoRIGHT.write(0);//ВПИСАТЬ УГЛЫ
+  servoLEFT.write(180);
+  delay(way_to_delay(arg);
+  servoRIGHT.write(90);//ВПИСАТЬ УГЛЫ
+  servoLEFT.write(90);
 }
 
 void turn_right(){
   /*Поворот направо*/
-  servoRIGHT.write(-18);//ВПИСАТЬ УГЛЫ
-  servoLEFT.write(18);
-
+  servoRIGHT.write(180);//ВПИСАТЬ УГЛЫ
+  servoLEFT.write(0);
+  delay(7800);
+  servoRIGHT.write(90);//ВПИСАТЬ УГЛЫ
+  servoLEFT.write(90);
 }
 
-void turn_left(){
-  /*Поворот налево*/
-  servoRIGHT.write(18);//ВПИСАТЬ УГЛЫ
-  servoLEFT.write(-18);
+void turn_right(){
+  /*Поворот направо*/
+  servoRIGHT.write(0);//ВПИСАТЬ УГЛЫ
+  servoLEFT.write(180);
+  delay(7800);
+  servoRIGHT.write(90);//ВПИСАТЬ УГЛЫ
+  servoLEFT.write(90);
 }
-
 void reverse(){
   /*Функция поворота*/
   servoRIGHT.write(36);//ВПИСАТЬ УГЛЫ
