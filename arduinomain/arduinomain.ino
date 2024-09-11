@@ -3,6 +3,9 @@
 Servo servoRIGHT;
 Servo servoLEFT;
 Servo servoKOLENO;
+#define SENSOR_LINE_PIN_LEFT 4
+#define SENSOR_LINE_PIN_MID 5
+#define SENSOR_LINE_PIN_RIGHT 6
 
 //расстояние в мм
 //Написать значение переменных:
@@ -17,6 +20,8 @@ String incomingByte;
 int counter = 0;
 int order = 0;
 String ans;
+int count_lines = 0;
+int count_nechet = 0;
 
 //пины для шаговых
 const int stepPin1 = 2;  // пин шага для двигателя 1
@@ -52,21 +57,36 @@ void setup() {
   
 }
 
-int way_to_degrees(int way) {
-  Перевод из миллиметров в градусы
-
-  double diff = way/12;
-  return (degree);
+/*Додумать!!!!*/
+void move_back() {
+  /*Движение прямо*/
+  bool signal_left = digitalRead(SENSOR_LINE_PIN_LEFT);
+  bool signal_mid = digitalRead(SENSOR_LINE_PIN_MID);
+  bool signal_right = digitalRead(SENSOR_LINE_PIN_RIGHT);
+  if (!signal_mid && !signal_left && !signal_right){
+    servoLEFT.write(0);
+    servoRIGHT.write(180);
+    c++;
+    return 1;
+  }
+  else {
+    return 0;
+  }
 }
 
-
-void move_forward(int arg) {
+void move_forward() {
   /*Движение прямо*/
-  servoRIGHT.write(0);//ВПИСАТЬ УГЛЫ
-  servoLEFT.write(180);
-  delay(way_to_delay(arg);
-  servoRIGHT.write(90);//ВПИСАТЬ УГЛЫ
-  servoLEFT.write(90);
+  bool signal_left = digitalRead(SENSOR_LINE_PIN_LEFT);
+  bool signal_mid = digitalRead(SENSOR_LINE_PIN_MID);
+  bool signal_right = digitalRead(SENSOR_LINE_PIN_RIGHT);
+  if (!signal_mid && !signal_left && !signal_right){
+    servoLEFT.write(0);
+    servoRIGHT.write(180);
+    return 1;
+  }
+  else {
+    return 0;
+  }
 }
 
 void turn_right(){
@@ -368,14 +388,33 @@ void take_low() {
   stepper3.runToPosition();
 }
 
-
 void loop() {
   delay(100);
   if (Serial.available() > 0) {
     incomingByte = Serial.readString();
     if (incomingByte == "START") {
       order = order + 1;
-      move_forward(y);
+      bool signal_left = digitalRead(SENSOR_LINE_PIN_LEFT);
+      bool signal_mid = digitalRead(SENSOR_LINE_PIN_MID);
+      bool signal_right = digitalRead(SENSOR_LINE_PIN_RIGHT);
+      if (signal_left && signal_right && !signal_mid) {
+        servoLEFT.write(0);
+        servoRIGHT.write(180);
+        delay(500);
+      }
+      count_lines++;
+      count_nechet++;
+      int x = 1;
+      while (x) {
+        move_forward();
+        x = move_forward();
+      }
+      count_lines++;
+      count_nechet++;
+      servoLEFT.write(90);
+      servoRIGHT.write(90);
+      stepper1.moveTo(0);
+      stepper1.runToPosition();
       QR_low_moving_to_pos();
       delay(100);
       ans = QR_answer();
@@ -396,13 +435,8 @@ void loop() {
         counter = counter + 1;
         load_in(counter);
       }
-      turn_right();
-      move_forward(w/2+n);
-      turn_left();
-      move_forward(h);
-      turn_left();
-      move_forward(w/2+n);
-      turn_right();
+      stepper1.moveTo(0);
+      stepper1.runToPosition();
       QR_low_moving_to_pos();
       delay(100);
       ans = QR_answer();
@@ -423,17 +457,15 @@ void loop() {
         counter = counter + 1;
         load_in(counter);
       }
-      turn_left();
-      move_forward(w/2+x);
-      turn_right();
-      move_forward();
+      int x = 1;
+      while (x) {
+        move_forward();
+        x = move_forward();
+      }
+      count_lines++;
+      count_nechet++;
       load_out(order, counter);
-      move_forward(s+h);
-      turn_left();
-      move_forward(w/2+x);
-      turn_right();
-      move_forward(y);
-      reverse();
+      //move_back
       Serial.println("END");
   }
 }
