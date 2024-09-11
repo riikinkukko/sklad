@@ -467,5 +467,7 @@ void loop() {
       load_out(order, counter);
       //move_back
       Serial.println("END");
+      count_lines = 0;
+      count_nechet = 0;
   }
 }
