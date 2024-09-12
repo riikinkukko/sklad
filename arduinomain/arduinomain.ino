@@ -58,15 +58,14 @@ void setup() {
 }
 
 /*Додумать!!!!*/
-void move_back() {
+void move_forward() {
   /*Движение прямо*/
   bool signal_left = digitalRead(SENSOR_LINE_PIN_LEFT);
   bool signal_mid = digitalRead(SENSOR_LINE_PIN_MID);
   bool signal_right = digitalRead(SENSOR_LINE_PIN_RIGHT);
   if (!signal_mid && !signal_left && !signal_right){
-    servoLEFT.write(0);
-    servoRIGHT.write(180);
-    c++;
+    servoLEFT.write(180);
+    servoRIGHT.write(0);
     return 1;
   }
   else {
@@ -402,6 +401,8 @@ void loop() {
         servoRIGHT.write(180);
         delay(500);
       }
+      servoLEFT.write(0);
+      servoRIGHT.write(180);
       count_lines++;
       count_nechet++;
       int x = 1;
@@ -466,6 +467,24 @@ void loop() {
       count_nechet++;
       load_out(order, counter);
       //move_back
+      bool signal_left = digitalRead(SENSOR_LINE_PIN_LEFT);
+      bool signal_mid = digitalRead(SENSOR_LINE_PIN_MID);
+      bool signal_right = digitalRead(SENSOR_LINE_PIN_RIGHT);
+      if (signal_left && signal_right && !signal_mid) {
+        servoLEFT.write(180);
+        servoRIGHT.write(0);
+        delay(500);
+      }
+      int x = 1;
+      while (x) {
+        move_back();
+        x = move_back();
+      }
+      int x = 1;
+      while (x) {
+        move_back();
+        x = move_back();
+      }
       Serial.println("END");
       count_lines = 0;
       count_nechet = 0;
