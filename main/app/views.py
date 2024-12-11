@@ -14,17 +14,17 @@ def index(request):
     global data_list
     if request.method == 'POST':
         data_list = []
-        order = request.POST
-        for elem in order:
-            if elem == 'csrfmiddlewaretoken':
-                pass
-            else:
-                data_list.append(elem)
-        print(data_list)
-
+        order_A3 = request.POST.get('А3col')
+        order_B2 = request.POST.get('Б2col')
+        if order_A3 == '':
+            order_A3 = '0'
+        if order_B2 == '':
+            order_B2 = '0'
+        print(order_A3, order_B2)
+        data_list = [order_A3, order_B2]
         return HttpResponseRedirect('/')
 
-    items = Item_s.objects.all()
+    items = Item_s.objects.filter(availability=True)
     return render(request, 'app/index.html', {
         'items': items,
     })
@@ -37,3 +37,4 @@ class DataListView(APIView):
         data_to_send = data_list[:]
         data_list = []
         return Response(data_to_send, status=status.HTTP_200_OK)
+
