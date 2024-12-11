@@ -34,6 +34,7 @@
             {% for item in items %}
             <div class="checkbox-item">
                 <input type="checkbox" name="{{ item.place }}" id="{{ item.place }}">
+                <input type="number" name="{{ item.place }}col" id="{{ item.place }}col" min="0" max="4">
                 <label for="{{ item.place }}">{{ item.name }}</label>
             </div>
             {% endfor %}
@@ -42,4 +43,3 @@
     </form>
 </body>
 </html>
-
