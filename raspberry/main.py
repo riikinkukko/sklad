@@ -3,10 +3,11 @@ import serial
 import time
 import cv2
 from pyzbar.pyzbar import decode
-
+from ultralytics import YOLO
 arduino = serial.Serial("/dev/ttyUSB0", 115200)
 time.sleep(2)
 arduino.reset_input_buffer()
+model = YOLO('best_sklad_v8')
 
 def get_data_list():
     url = 'https://riikinkukko.pythonanywhere.com/api/data/'
@@ -31,6 +32,34 @@ def QR(image):
     new_data = list(map(str, data.decode().split(",")))
     return new_data
 
+def calculate_angles(start, target, link1_length, link2_length):
+    a = math.atan2(target["y"] - start["y"], target["x"] - start["x"]) + math.pi / 2
+
+    delta = math.sqrt(
+        (target["y"] - start["y"])**2 +
+        (target["x"] - start["x"])**2 +
+        (target["z"] - start["z"])**2
+    )
+
+    max_reach = link1_length + link2_length
+    if delta > max_reach:
+        delta = max_reach
+
+    a2 = math.pi - 2 * math.asin((delta / 2) / link2_length)
+
+    xy_proj = math.sqrt(
+        (target["y"] - start["y"])**2 +
+        (target["x"] - start["x"])**2
+    )
+
+    a3 = math.atan2(xy_proj, target["z"] - start["z"]) - math.acos((delta / 2) / link2_length) + math.pi / 2
+
+    return {
+        "base_angle": math.degrees(a),
+        "segment1_angle": math.degrees(a3),
+        "segment2_angle": math.degrees(a2)
+    }
+start = {"x": 0, "y": 260, "z": 0}
 while True:
     data_list = get_data_list()
     time.sleep(0.01)
@@ -71,5 +100,9 @@ while True:
                                 data_list.remove(elem)
                     else:
                         print(arduino.readline().decode())
+            if a == 'detect':
+                results = model(img, save=True)
+                boxes = results[0].boxes.xyxy
+                boxes_new = boxes.numpy()
             else:
                 break
