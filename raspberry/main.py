@@ -4,6 +4,7 @@ import time
 import cv2
 from pyzbar.pyzbar import decode
 from ultralytics import YOLO
+import math
 arduino = serial.Serial("/dev/ttyUSB0", 115200)
 time.sleep(2)
 arduino.reset_input_buffer()
