@@ -73,10 +73,10 @@ def main():
                 x2_l, y2_l = bottom_left
                 x1_r, y1_r = top_right
                 x2_r, y2_r = bottom_right
-                x1 = abs(x1_l-x2_l)
-                x2 = abs(x1_r-x1_l)
-                y1 = abs(y1_l-y2_l)
-                y2 = abs(y1_r-y2_r)
+                x1 = abs(x1_l+x1_r)//2
+                x2 = abs(x2_l+x2_r)//2
+                y1 = abs(y1_l+y1_r)//2
+                y2 = abs(y2_r+y2_l)//2
                 image_size = ((x1-x2)**2+(y1-y2)**2)**0.5
                 distance = (focal_length*obj_size/image_size)*15.8
                 print(distance)
